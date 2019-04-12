@@ -2,7 +2,7 @@
 """
 Install script for the snakefood dependency graph tool.
 """
-from setuptools import setup
+from setuptools import setup, find_packages
 
 from snakefood3 import __version__
 
@@ -10,16 +10,10 @@ setup(
     name="snakefood3",
     version=__version__,
     description="Dependency Graphing for Python",
-    long_description="""
-Generate dependencies from Python code, filter, cluster and generate graphs
-from the dependency list.
-""",
+    long_description="",
     license="GPL",
-    author="Martin Blais",
-    author_email="blais@furius.ca",
-    url="http://furius.ca/snakefood",
-    download_url="http://bitbucket.org/blais/snakefood",
-    package_dir={'': 'lib/python'},
-    packages=['snakefood', 'snakefood/fallback'],
-    scripts=scripts
+    author="Trim21",
+    author_email="trim21me@gmail.com",
+    url="https://github.com/Trim21/snakefood3",
+    packages=find_packages(),
 )
