@@ -5,20 +5,11 @@
 
 - Python 3, only standard package.
 
-Documentation
-=============
-
-- `CHANGES <CHANGES>`_
-- `TODO <TODO>`_
-
-- `User's Manual </snakefood/doc/snakefood-doc.html>`_
-- `Example Outputs </snakefood/doc/examples/>`_
-
 
 ## Download
 
 ```bash
-pip install 
+pip install snakefood3
 ```
 
 
