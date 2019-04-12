@@ -89,7 +89,7 @@ import os
 def main():
     parser = argparse.ArgumentParser()
     # parser.add_argument('-i', '--internal', action='store_true')
-    parser.add_argument('-e', '--external', action='store_true')
+    # parser.add_argument('-e', '--external', action='store_true')
     parser.add_argument(
         '-g',
         '--group',
