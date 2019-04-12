@@ -100,7 +100,11 @@ def main():
     parser.add_argument('package_name', )
 
     r = parser.parse_args()
-    groups = [line.strip() for line in r.group.readlines() if line.strip()]
+
+    if r.group:
+        groups = [line.strip() for line in r.group.readlines() if line.strip()]
+    else:
+        groups = []
 
     def replace(node_name):
         for m in groups:
