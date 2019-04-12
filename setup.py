@@ -11,6 +11,7 @@ setup(
     version=__version__,
     description="Dependency Graphing for Python",
     long_description="",
+    install_requires=['jinja2'],
     license="GPL",
     author="Trim21",
     author_email="trim21me@gmail.com",

@@ -3,7 +3,8 @@
 
 ## Dependencies
 
-- Python 3, only standard package.
+- Python 3.
+- jinja2
 
 
 ## Download
