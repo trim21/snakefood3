@@ -49,7 +49,12 @@ def get_all_imports_of_file(filename, python_path):
                 module = node.module
             else:
                 module = '.'.join(current_module.split('.')[:-node.level])
-                module += '.' + node.module
+                if node.module:
+                    module += '.' + node.module
+                else:
+                    # from . import b # module==None,name=='b'
+                    # maybe base_module.b or Base_module#b
+                    pass
             for name in node.names:
                 maybe_dir = path.join(
                     python_path,
