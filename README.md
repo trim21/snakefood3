@@ -55,7 +55,7 @@ show example in [example](./example)
 
 ## Copyright and License
 
-Copyright (C) 2019 Trim21<trim21me@gmail.com>.  All Rights Reserved.
+Copyright (C) 2019 Trim21<github@trim21.me>.  All Rights Reserved.
 
 Copyright (C) 2001-2007  Martin Blais.  All Rights Reserved.
 
