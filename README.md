@@ -63,6 +63,6 @@ This code is distributed under the `GNU General Public License <COPYING>`;
 
 ## Author
 
-Trim21 <trim21me@gmail.com>
+Trim21 <github@trim21.me>
 
 Martin Blais <blais@furius.ca>
