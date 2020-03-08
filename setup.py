@@ -9,7 +9,7 @@ from snakefood3 import __version__
 setup(
     name="snakefood3",
     version=__version__,
-    description="Dependency Graphing for Python",
+    description="Dependency Graphing for Python3",
     long_description="",
     install_requires=['jinja2'],
     license="GPL",
