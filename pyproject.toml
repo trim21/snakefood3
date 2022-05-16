@@ -1,0 +1,23 @@
+[tool.poetry]
+name = "snakefood3"
+version = "0.0.6"
+description = "Dependency Graphing for Python3"
+authors = ["Trim21 <trim21me@gmail.com>"]
+license = "GPL"
+readme = 'README.md'
+homepage = 'https://github.com/Trim21/snakefood3'
+repository = 'https://github.com/Trim21/snakefood3'
+keywords = ['snakefood', 'snakefood3', 'dependency graph']
+
+[tool.poetry.dependencies]
+python = "^3.8"
+Jinja2 = "^3.1.2"
+
+[tool.poetry.dev-dependencies]
+
+[tool.poetry.scripts]
+snakefood3 = 'snakefood3.gen_deps:run'
+
+[build-system]
+requires = ["poetry-core>=1.0.0"]
+build-backend = "poetry.core.masonry.api"
