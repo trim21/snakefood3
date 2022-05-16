@@ -11,9 +11,11 @@ version = "0.0.6"
 
 [tool.poetry.dependencies]
 Jinja2 = "^3.1.2"
-python = "^3.8"
+python = "^3.7"
 
 [tool.poetry.dev-dependencies]
+black = "^22.3.0"
+pytest = "^7.1.2"
 
 [tool.poetry.scripts]
 snakefood3 = 'snakefood3.gen_deps:run'
