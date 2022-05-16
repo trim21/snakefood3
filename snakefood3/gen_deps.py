@@ -2,10 +2,9 @@ import argparse
 import ast
 from collections import defaultdict
 from pathlib import Path
-from typing import DefaultDict, Set
+from typing import DefaultDict, Generator, Set, Union
 
 from snakefood3.graph import graph
-from snakefood3.utils import Utils
 
 
 class GenerateDependency:
@@ -16,6 +15,58 @@ class GenerateDependency:
         self._package_name = package_name
         self._group_packages = group_packages
         self._internal_packages = None
+
+    @classmethod
+    def iter_py_files(
+        cls, directory_path: Union[Path, str], extension="py"
+    ) -> Generator[Path, None, None]:
+        """Get all the files under a directory with specific extension
+
+        :param directory_path: directory path
+        :param extension: file extension, defaults to "py"
+        :yield: Generator which yields path of all file of a specific extension
+        """
+        yield from Path(directory_path).rglob(f"*.{extension}")
+
+    @classmethod
+    def module_to_filename(cls, module_name: str, root_path: Union[Path, str]) -> Path:
+        """Given a module name and root path of the module, give module path
+
+        :param module_name: module name as in import statement (e.g. a.lib.csv_parser)
+        :param root_path: root path of the module
+        :return: path of the module
+        """
+        return Path(root_path) / (module_name.replace(".", "/") + ".py")
+
+    @classmethod
+    def filename_to_module(
+        cls, filepath: Union[Path, str], root_path: Union[Path, str]
+    ) -> str:
+        """Given a filepath and a root_path derive the module name as in import statement
+
+        :param filepath: file path of the module
+        :param root_path: root path of the package
+        :return: module name as in import statement (e.g. a.lib.csv_parser)
+        """
+        realpath = str(Path(filepath).relative_to(root_path))
+        realpath = realpath.replace("\\", ".")
+        realpath = realpath.replace("/", ".")
+        realpath = realpath.split(".py")[0]
+        if realpath.endswith(".__init__"):
+            realpath = realpath.split(".__init__")[0]
+        return realpath
+
+    @classmethod
+    def get_first_prefix_matching_string(cls, string: str, *prefixes: str) -> str:
+        """Given prefixs and a string, return the first prefix with which the string starts. If no such prefix is present, return the original string
+
+        :param string: string which will be matched against multiple prefix
+        :return: first prefix with which the string starts if present, else return original string
+        """
+        for prefix in prefixes:
+            if string.startswith(prefix):
+                return prefix
+        return string
 
     def get_internal_packages(self) -> Set[Path]:
         """Get all the internal packages for a project"""
@@ -29,7 +80,7 @@ class GenerateDependency:
         return self._internal_packages
 
     def _get_all_imports_of_file(self, filename: Path) -> Set[str]:
-        current_module = Utils.filename_to_module(filename, self._root_path)
+        current_module = self.filename_to_module(filename, self._root_path)
         if filename.name == "__init__.py":
             current_module += ".__init__"
         imports = set()
@@ -61,7 +112,7 @@ class GenerateDependency:
                     maybe_dir = (
                         self._root_path / "/".join(module.split(".")) / name.name
                     )
-                    maybe_file = Utils.module_to_filename(
+                    maybe_file = self.module_to_filename(
                         module + "." + name.name, self._root_path
                     )
                     if Path(maybe_dir).exists() or Path(maybe_file).exists():
@@ -76,16 +127,16 @@ class GenerateDependency:
         imports = defaultdict(set)
         internal_packages = self.get_internal_packages()
 
-        for file in Utils.iter_py_files(self._root_path / self._package_name):
+        for file in self.iter_py_files(self._root_path / self._package_name):
             file_imports = self._get_all_imports_of_file(file)
-            current_module = Utils.filename_to_module(file, self._root_path)
+            current_module = self.filename_to_module(file, self._root_path)
             imports[
-                Utils.get_first_prefix_matching_string(
+                self.get_first_prefix_matching_string(
                     current_module, *self._group_packages
                 )
             ].update(
                 {
-                    Utils.get_first_prefix_matching_string(
+                    self.get_first_prefix_matching_string(
                         _import, *self._group_packages
                     )
                     for _import in file_imports

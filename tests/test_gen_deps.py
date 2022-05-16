@@ -33,14 +33,66 @@ class TestGenDeps(TestCase):
                 "foo.utils.list_util": {"foo.utils.string_util"},
             },
         )
-        self.assertDictContainsSubset(
-            self._generate_dependency.get_import_map(), expected
-        )
+        assert dict(expected, **self._generate_dependency.get_import_map()) == expected
 
     def test_get_import_map_with_group(self):
         expected = defaultdict(
             set, {"foo.command": {"foo.parser"}, "foo.parser": {"foo.utils"}}
         )
-        self.assertDictContainsSubset(
-            self._generate_dependency_with_group.get_import_map(), expected
+        assert (
+            dict(expected, **self._generate_dependency_with_group.get_import_map())
+            == expected
+        )
+
+    def test_module_to_filename(self):
+        # module: str, python_path: Path
+        assert GenerateDependency.module_to_filename(
+            "a.lib.csv_parser", Path("/home/usr/src")
+        ) == Path("/home/usr/src/a/lib/csv_parser.py")
+
+        # module: str, python_path: str
+        assert GenerateDependency.module_to_filename(
+            "a.lib.csv_parser", "/home/usr/src"
+        ) == Path("/home/usr/src/a/lib/csv_parser.py")
+
+    def test_filename_to_module(self):
+        # filepath: str, python_path: str
+        assert (
+            GenerateDependency.filename_to_module(
+                "/home/usr/src/a/lib/csv_parser.py", "/home/usr/src"
+            )
+            == "a.lib.csv_parser"
+        )
+
+        # filepath: Path, python_path: str
+        assert (
+            GenerateDependency.filename_to_module(
+                Path("/home/usr/src/a/lib/csv_parser.py"), "/home/usr/src"
+            )
+            == "a.lib.csv_parser"
+        )
+
+        # filepath: str, python_path: Path
+        assert (
+            GenerateDependency.filename_to_module(
+                "/home/usr/src/a/lib/csv_parser.py", Path("/home/usr/src")
+            )
+            == "a.lib.csv_parser"
+        )
+
+    def test_get_first_prefix_matching_string(self):
+        # One prefix exist
+        assert (
+            GenerateDependency.get_first_prefix_matching_string(
+                "a.parser.csv_parser", "a.utils", "a.parser", "a.command"
+            )
+            == "a.parser"
+        )
+
+        # No prefix exist
+        assert (
+            GenerateDependency.get_first_prefix_matching_string(
+                "a.lib.command.ping", "a.command", "a.parser", "a.utils"
+            )
+            == "a.lib.command.ping"
         )
