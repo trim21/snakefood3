@@ -18,7 +18,7 @@ black = "^22.3.0"
 pytest = "^7.1.2"
 
 [tool.poetry.scripts]
-snakefood3 = 'snakefood3.gen_deps:run'
+snakefood3 = 'snakefood3.gen_deps:main'
 
 [build-system]
 build-backend = "poetry.core.masonry.api"
