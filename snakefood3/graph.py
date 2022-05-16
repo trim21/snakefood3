@@ -4,6 +4,7 @@ Read snakefood dependencies and output a visual graph.
 # This file is part of the Snakefood open source package.
 # See http://furius.ca/snakefood/ for licensing details.
 
+from typing import Mapping, Set
 import jinja2
 
 template = jinja2.Template(
@@ -36,22 +37,27 @@ graph_config = {
     "overlap": "scale",
     "ratio": "fill",
     "fontsize": "16",
-    'dpi': '150',
+    "dpi": "150",
     "clusterrank": "local",
 }
 node_config = {
-    'fontsize': 14,
-    'shape': "ellipse",
-    'fontname': "Consolas",
+    "fontsize": 14,
+    "shape": "ellipse",
+    "fontname": "Consolas",
 }
 
 
-def graph(pairs, fontsize=14):
+def graph(pairs: Mapping[str, Set[str]]) -> str:
+    """Use predefined graphviz template to generate the dependency graph in dot language
+
+    :param pairs: mapping of dependencies
+    :return: string in dot language which defines the class dependencies
+    """
     edges = []
-    for key, value in pairs:
+    for key, value in pairs.items():
         if value:
             for v in value:
-                edges.append({'source': v, 'dist': key})
+                edges.append({"source": v, "dist": key})
     return template.render(
         graph_config=graph_config,
         node_config=node_config,
