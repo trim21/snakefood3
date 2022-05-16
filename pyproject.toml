@@ -1,17 +1,17 @@
 [tool.poetry]
-name = "snakefood3"
-version = "0.0.6"
-description = "Dependency Graphing for Python3"
 authors = ["Trim21 <trim21me@gmail.com>"]
-license = "GPL"
-readme = 'README.md'
+description = "Dependency Graphing for Python3"
 homepage = 'https://github.com/Trim21/snakefood3'
-repository = 'https://github.com/Trim21/snakefood3'
 keywords = ['snakefood', 'snakefood3', 'dependency graph']
+license = "GPL"
+name = "snakefood3"
+readme = 'README.md'
+repository = 'https://github.com/Trim21/snakefood3'
+version = "0.0.6"
 
 [tool.poetry.dependencies]
-python = "^3.8"
 Jinja2 = "^3.1.2"
+python = "^3.8"
 
 [tool.poetry.dev-dependencies]
 
@@ -19,5 +19,5 @@ Jinja2 = "^3.1.2"
 snakefood3 = 'snakefood3.gen_deps:run'
 
 [build-system]
-requires = ["poetry-core>=1.0.0"]
 build-backend = "poetry.core.masonry.api"
+requires = ["poetry-core>=1.0.0"]
