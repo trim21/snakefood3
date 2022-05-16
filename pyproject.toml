@@ -7,7 +7,7 @@ license = "GPL"
 name = "snakefood3"
 readme = 'README.md'
 repository = 'https://github.com/Trim21/snakefood3'
-version = "0.0.6"
+version = "0.0.7"
 
 [tool.poetry.dependencies]
 Jinja2 = "^3.1.2"
