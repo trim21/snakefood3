@@ -2,5 +2,11 @@
   "$schema": "https://docs.renovatebot.com/renovate-schema.json",
   "extends": [
     "local>Trim21/renovate-config"
+  ],
+  "packageRules": [
+    {
+      "depTypeList": ["dev-dependencies"],
+      "rangeStrategy": "bump"
+    }
   ]
 }
