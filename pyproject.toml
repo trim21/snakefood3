@@ -14,7 +14,7 @@ Jinja2 = "^3.1.2"
 python = "^3.7"
 
 [tool.poetry.dev-dependencies]
-black = { version = "^23.9.0", python = '^3.9' }
+black = { version = "^23.9.1", python = '^3.9' }
 pytest = "^7.4.2"
 
 [tool.poetry.scripts]
