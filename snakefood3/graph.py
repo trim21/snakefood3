@@ -5,6 +5,7 @@ Read snakefood dependencies and output a visual graph.
 # See http://furius.ca/snakefood/ for licensing details.
 
 from typing import Mapping, Set
+
 import jinja2
 
 template = jinja2.Template(
@@ -17,13 +18,13 @@ strict digraph "dependencies" {
             {{key}}="{{value}}"{% if not loop.last %},{% endif %}
         {%- endfor %}
         ]
-    
+
        node [
         {%- for key, value in node_config.items() %}
             {{key}}={{value}}
         {%- endfor %}
        ];
-    
+
 {%- for edge in edges %}
     "{{edge.source}}" -> "{{edge.dist}}"
 {%- endfor %}

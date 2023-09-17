@@ -1,5 +1,5 @@
-from foo.utils.list_util import ListUtil
 from foo.utils.file_util import FileUtil
+from foo.utils.list_util import ListUtil
 from foo.utils.string_util import StringUtil
 
 

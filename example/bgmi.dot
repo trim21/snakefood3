@@ -10,7 +10,7 @@ strict digraph "dependencies" {
             dpi="150",
             clusterrank="local"
         ]
-    
+
        node [
             fontsize=14
             shape=ellipse
@@ -88,4 +88,3 @@ strict digraph "dependencies" {
     "bgmi.config" -> "bgmi.sql"
     "bgmi.main" -> "bgmi.__main__"
 }
-
