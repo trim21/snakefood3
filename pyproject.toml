@@ -9,15 +9,17 @@ readme = 'README.md'
 repository = 'https://github.com/Trim21/snakefood3'
 version = "0.0.7"
 
+[tool.poetry.scripts]
+snakefood3 = 'snakefood3.gen_deps:main'
+
 [tool.poetry.dependencies]
 Jinja2 = "^3.1.2"
 python = "^3.7"
 
-[tool.poetry.dev-dependencies]
-pytest = "^7.4.2"
 
-[tool.poetry.scripts]
-snakefood3 = 'snakefood3.gen_deps:main'
+[tool.poetry.group.dev.dependencies]
+coverage = { version = "^7.3.1", python = "^3.8" }
+pytest = "^7.4.2"
 
 [tool.ruff]
 ignore = ["E501"]
