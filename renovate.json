@@ -3,6 +3,9 @@
   "extends": [
     "local>Trim21/renovate-config"
   ],
+  "pre-commit": {
+    "enabled": true
+  },
   "packageRules": [
     {
       "depTypeList": ["dev-dependencies"],
