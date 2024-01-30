@@ -1,6 +1,7 @@
 """
 Read snakefood dependencies and output a visual graph.
 """
+
 # This file is part of the Snakefood open source package.
 # See http://furius.ca/snakefood/ for licensing details.
 
