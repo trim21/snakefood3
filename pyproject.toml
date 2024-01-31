@@ -19,7 +19,7 @@ python = "^3.7"
 
 [tool.poetry.group.dev.dependencies]
 coverage = { version = "^7.3.1", python = "^3.8" }
-pytest = "^7.4.2"
+pytest = "^8.0.0"
 
 [tool.ruff]
 ignore = ["E501"]
