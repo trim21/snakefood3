@@ -54,7 +54,7 @@ repos:
           - --expand-star-imports
 
   - repo: https://github.com/PyCQA/doc8.git
-    rev: v1.1.1
+    rev: v1.1.2
     hooks:
       - id: doc8
         name: Check rst file
