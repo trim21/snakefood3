@@ -18,19 +18,19 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 2
 
       - uses: actions/setup-python@v5
         with:
           python-version: ${{ matrix.python }}
 
-      - uses: trim21/setup-poetry@dist/v1
+      - name: Install the latest version of uv
+        uses: astral-sh/setup-uv@v5
+        with:
+          version: "latest"
 
-      - uses: trim21/install-poetry-project@dist/v1
+      - run: uv sync --locked
 
-      - name: test
-        run: coverage run -m pytest
+      - run: uv run coverage run -m pytest
 
       - uses: codecov/codecov-action@v5
         with:
