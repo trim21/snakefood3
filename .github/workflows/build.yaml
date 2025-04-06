@@ -20,7 +20,7 @@ jobs:
 
         - uses: trim21/setup-poetry@dist/v1
 
-        - run: poetry build
+        - run: pipx run build
 
         - name: Install twine
           run: pip install twine
