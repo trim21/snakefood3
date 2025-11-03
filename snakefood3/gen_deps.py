@@ -9,12 +9,13 @@ from snakefood3.graph import graph
 
 class GenerateDependency:
     def __init__(
-        self, root_path: str, package_name: str, group_packages: Set[str] = set()
+        self, root_path: str, package_name: str, group_packages: Set[str] = set(), track_external: bool = True
     ) -> None:
         self._root_path = Path(root_path)
         self._package_name = package_name
         self._group_packages = group_packages
         self._internal_packages = None
+        self._track_external_packages = track_external
 
     @classmethod
     def iter_py_files(
@@ -120,7 +121,12 @@ class GenerateDependency:
                     else:
                         added.add(module)
                 imports.update(added)
-        return imports
+
+        return imports if self._track_external_packages else {
+            _import
+            for _import in imports
+            if _import.startswith(self._package_name)
+        }
 
     def get_import_map(self) -> DefaultDict[str, Set[str]]:
         """Gets the import mapping for each module in the project"""
@@ -129,6 +135,7 @@ class GenerateDependency:
 
         for file in self.iter_py_files(self._root_path / self._package_name):
             file_imports = self._get_all_imports_of_file(file)
+
             current_module = self.filename_to_module(file, self._root_path)
             imports[
                 self.get_first_prefix_matching_string(
@@ -161,6 +168,10 @@ def main() -> None:
     parser.add_argument(
         "-g", "--group", help="group module name", type=argparse.FileType("r")
     )
+    parser.add_argument(
+        "--internal", help="tack only internal packages", action="store_false",
+        dest="track_external"
+    )
     parser.add_argument("project_path")
     parser.add_argument("package_name")
 
@@ -168,7 +179,7 @@ def main() -> None:
     if args.group:
         groups = {line.strip() for line in args.group.readlines() if line.strip()}
         generate_dependency = GenerateDependency(
-            args.project_path, args.package_name, groups
+            args.project_path, args.package_name, groups, args.track_external
         )
     else:
         generate_dependency = GenerateDependency(args.project_path, args.package_name)
