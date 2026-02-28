@@ -15,12 +15,18 @@ class TestGenDeps(TestCase):
             package_name="foo",
             group_packages={"foo.command", "foo.parser", "foo.utils"},
         )
+        self._generate_dependency_internal = GenerateDependency(
+            root_path=Path(__file__).parent / "fixture",
+            package_name="foo",
+            track_external=False,
+        )
         return super().setUp()
 
     def test_get_import_map_without_group(self):
         expected = defaultdict(
             set,
             {
+                "foo.external": {"os", "os.path", "threading"},
                 "foo.command.connectivity.netsh": {"foo.parser.xml_parser"},
                 "foo.command.power.powrcfg": {"foo.parser.xml_parser"},
                 "foo.command.productivity.excel": {"foo.parser.csv_parser"},
@@ -37,7 +43,10 @@ class TestGenDeps(TestCase):
 
     def test_get_import_map_with_group(self):
         expected = defaultdict(
-            set, {"foo.command": {"foo.parser"}, "foo.parser": {"foo.utils"}}
+            set, {
+                "foo.external": {"os", "os.path", "threading"},
+                "foo.command": {"foo.parser"},
+                "foo.parser": {"foo.utils"}}
         )
         assert (
             dict(expected, **self._generate_dependency_with_group.get_import_map())
@@ -96,3 +105,22 @@ class TestGenDeps(TestCase):
             )
             == "a.lib.command.ping"
         )
+
+    def test_get_import_map_internal(self):
+        expected = defaultdict(
+            set,
+            {
+                "foo.external": {},
+                "foo.command.connectivity.netsh": {"foo.parser.xml_parser"},
+                "foo.command.power.powrcfg": {"foo.parser.xml_parser"},
+                "foo.command.productivity.excel": {"foo.parser.csv_parser"},
+                "foo.parser.csv_parser": {"foo.utils.file_util", "foo.utils.list_util"},
+                "foo.parser.xml_parser": {
+                    "foo.utils.string_util",
+                    "foo.utils.file_util",
+                    "foo.utils.list_util",
+                },
+                "foo.utils.list_util": {"foo.utils.string_util"},
+            },
+        )
+        assert dict(expected, **self._generate_dependency_internal.get_import_map()) == expected
