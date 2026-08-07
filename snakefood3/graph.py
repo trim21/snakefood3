@@ -5,7 +5,9 @@ Read snakefood dependencies and output a visual graph.
 # This file is part of the Snakefood open source package.
 # See http://furius.ca/snakefood/ for licensing details.
 
-from typing import Mapping, Set
+from __future__ import annotations
+
+from typing import Mapping
 
 import jinja2
 
@@ -47,7 +49,7 @@ node_config = {
 }
 
 
-def graph(pairs: Mapping[str, Set[str]]) -> str:
+def graph(pairs: Mapping[str, set[str]]) -> str:
     """Use predefined graphviz template to generate the dependency graph in dot language
 
     :param pairs: mapping of dependencies

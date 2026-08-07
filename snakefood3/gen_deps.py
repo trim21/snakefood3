@@ -1,24 +1,29 @@
+from __future__ import annotations
+
 import argparse
 import ast
 from collections import defaultdict
 from pathlib import Path
-from typing import DefaultDict, Generator, Set, Union
+from typing import Generator
 
 from snakefood3.graph import graph
 
 
 class GenerateDependency:
     def __init__(
-        self, root_path: str, package_name: str, group_packages: Set[str] = set()
+        self,
+        root_path: str,
+        package_name: str,
+        group_packages: set[str] | None = None,
     ) -> None:
         self._root_path = Path(root_path)
         self._package_name = package_name
-        self._group_packages = group_packages
+        self._group_packages = set() if group_packages is None else group_packages
         self._internal_packages = None
 
     @classmethod
     def iter_py_files(
-        cls, directory_path: Union[Path, str], extension="py"
+        cls, directory_path: Path | str, extension="py"
     ) -> Generator[Path, None, None]:
         """Get all the files under a directory with specific extension
 
@@ -29,7 +34,7 @@ class GenerateDependency:
         yield from Path(directory_path).rglob(f"*.{extension}")
 
     @classmethod
-    def module_to_filename(cls, module_name: str, root_path: Union[Path, str]) -> Path:
+    def module_to_filename(cls, module_name: str, root_path: Path | str) -> Path:
         """Given a module name and root path of the module, give module path
 
         :param module_name: module name as in import statement (e.g. a.lib.csv_parser)
@@ -39,9 +44,7 @@ class GenerateDependency:
         return Path(root_path) / (module_name.replace(".", "/") + ".py")
 
     @classmethod
-    def filename_to_module(
-        cls, filepath: Union[Path, str], root_path: Union[Path, str]
-    ) -> str:
+    def filename_to_module(cls, filepath: Path | str, root_path: Path | str) -> str:
         """Given a filepath and a root_path derive the module name as in import statement
 
         :param filepath: file path of the module
@@ -68,7 +71,7 @@ class GenerateDependency:
                 return prefix
         return string
 
-    def get_internal_packages(self) -> Set[Path]:
+    def get_internal_packages(self) -> set[Path]:
         """Get all the internal packages for a project"""
         if self._internal_packages is None:
             python_path = self._root_path.resolve()
@@ -79,7 +82,7 @@ class GenerateDependency:
             }
         return self._internal_packages
 
-    def _get_all_imports_of_file(self, filename: Path) -> Set[str]:
+    def _get_all_imports_of_file(self, filename: Path) -> set[str]:
         current_module = self.filename_to_module(filename, self._root_path)
         if filename.name == "__init__.py":
             current_module += ".__init__"
@@ -122,7 +125,7 @@ class GenerateDependency:
                 imports.update(added)
         return imports
 
-    def get_import_map(self) -> DefaultDict[str, Set[str]]:
+    def get_import_map(self) -> defaultdict[str, set[str]]:
         """Gets the import mapping for each module in the project"""
         imports = defaultdict(set)
         internal_packages = self.get_internal_packages()
