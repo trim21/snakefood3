@@ -35,3 +35,9 @@ jobs:
       - uses: codecov/codecov-action@v7
         with:
           token: ${{ secrets.CODECOV_TOKEN }}
+
+  test-checks: # referenced in Mergify conditions → name must be unique across ALL workflows
+    needs: [test] # matrix job name → waits for ALL its instances
+    runs-on: ubuntu-slim # lightest runner — the job runs no payload, only an echo
+    steps:
+      - run: echo "all test checks passed"
