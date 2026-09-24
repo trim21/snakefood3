@@ -1,3 +1,13 @@
+merge_queue:
+  max_parallel_checks: 1
+  queued_label: "ci:queued"
+  dequeued_label: "ci:dequeued"
+
+queue_rules:
+  - name: default
+    update_method: merge
+    merge_method: squash
+
 pull_request_rules:
   - name: label conflicts
     conditions:
@@ -7,20 +17,19 @@ pull_request_rules:
         toggle:
           - conflict
 
-  - name: Automatic merge on approval
+  - name: automatic merge
     conditions:
-      - '#commits-behind=0'
+      - base=master
       - or:
-          - '#approved-reviews-by>=1'
+          - "#approved-reviews-by>=1"
           - label=ci:auto-merge
       - not:
           and:
-            - 'head*=renovate/lockfile-maintenance-*'
-            - 'created-at>24h ago'
-      - base=master
-      - check-success~=^test \(3\.[0-9]+\)$
+            - "head*=renovate/lockfile-maintenance-*"
+            - "created-at>24h ago"
+      - check-success=test-checks
       - check-success=pre-commit
       - check-success=dist-files
     actions:
-      merge:
-        method: squash
+      queue:
+        name: default
