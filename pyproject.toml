@@ -5,7 +5,7 @@ build-backend = "flit_core.buildapi"
 [project]
 name = "snakefood3"
 version = "0.0.7"
-requires-python = '~=3.7'
+requires-python = '>=3.10'
 authors = [{ name = "trim21" }]
 description = "Dependency Graphing for Python3"
 keywords = ['snakefood', 'snakefood3', 'dependency graph']
@@ -18,8 +18,8 @@ dependencies = [
 
 [dependency-groups]
 dev = [
-  "coverage>=7.3.1; python_version >= '3.8'",
-  "pytest>=8.0.0; python_version >= '3.9'",
+  "coverage>=7.3.1",
+  "pytest>=8.0.0",
 ]
 
 [project.urls]
