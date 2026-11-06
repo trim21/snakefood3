@@ -7,7 +7,7 @@ Read snakefood dependencies and output a visual graph.
 
 from __future__ import annotations
 
-from typing import Mapping
+from collections.abc import Mapping
 
 import jinja2
 

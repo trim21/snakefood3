@@ -33,5 +33,5 @@ snakefood3 = 'snakefood3.gen_deps:main'
 [tool.pdm.build]
 excludes = ["tests"]
 
-[tool.ruff]
+[tool.ruff.lint]
 ignore = ["E501"]

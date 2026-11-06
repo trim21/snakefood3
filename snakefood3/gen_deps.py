@@ -3,8 +3,8 @@ from __future__ import annotations
 import argparse
 import ast
 from collections import defaultdict
+from collections.abc import Generator
 from pathlib import Path
-from typing import Generator
 
 from snakefood3.graph import graph
 
