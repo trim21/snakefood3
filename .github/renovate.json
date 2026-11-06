@@ -12,7 +12,9 @@
   "rebaseWhen": "conflicted",
   "packageRules": [
     {
-      "depTypeList": ["dev-dependencies"],
+      "matchDepTypes": [
+        "dev-dependencies"
+      ],
       "rangeStrategy": "bump"
     }
   ]
