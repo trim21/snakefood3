@@ -1,6 +1,6 @@
 [build-system]
-requires = ["flit-core==4.1.0"]
-build-backend = "flit_core.buildapi"
+requires = ["pdm-backend==2.5.0"]
+build-backend = "pdm.backend"
 
 [project]
 name = "snakefood3"
@@ -29,6 +29,9 @@ homepage = 'https://github.com/Trim21/snakefood3'
 [project.scripts]
 snakefood3 = 'snakefood3.gen_deps:main'
 
+
+[tool.pdm.build]
+excludes = ["tests"]
 
 [tool.ruff]
 ignore = ["E501"]
